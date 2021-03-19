@@ -78,6 +78,7 @@ class MyApplet extends FakeApplet {
 
         ActionListener dig_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                tf1.setText(tf1.getText() + e.getActionCommand());
                 System.err.println(e);
             }
         };
