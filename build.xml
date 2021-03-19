@@ -1,0 +1,52 @@
+<project default="dist">
+
+  <property name="src" location="." />
+  <property name="build" location="build" />
+  <property name="doc" location="doc" />
+  <property name="jar" location="app.jar" />
+  <property name="main" value="Main" />
+
+  <target name="init">
+    <mkdir dir="${build}" />
+    <mkdir dir="${doc}" />
+  </target>
+
+  <target name="compile" depends="init">
+    <javac srcdir="${src}"
+           destdir="${build}"
+           debug="true"
+           includeAntRuntime="false" />
+  </target>
+
+  <target name="doc" depends="init">
+    <javadoc destdir="${doc}" access="private" linksource="true">
+      <Fileset dir="${src}" />
+    </javadoc>
+  </target>
+
+  <target name="dist" depends="compile">
+    <jar destfile="${jar}" basedir="${build}">
+      <manifest>
+        <attribute name="Main-Class" value="${main}" />
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="run" depends="dist">
+    <java jar="${jar}" fork="true" failOnError="true" />
+  </target>
+
+  <target name="test" depends="dist">
+    <java jar="${jar}" fork="true" failOnError="true">
+      <jvmarg value="-ea" />
+    </java>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build}" />
+    <delete dir="${doc}" />
+    <delete file="${jar}" />
+  </target>
+
+</project>
+
