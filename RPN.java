@@ -81,8 +81,15 @@ class MyApplet extends FakeApplet {
                 System.err.println(e);
             }
         };
-        tf1.addActionListener(dig_listener);
 
+        String digit = "1 2 3 4 5 6 7 8 9 0";
+        for (String dig : digit.split(" ")) {
+            Button d  = new Button(dig);
+            this.add(d);
+            d.addActionListener(dig_listener);
+        }
+
+        tf1.addActionListener(dig_listener);
     } 
 
     public RPN getRPN(){
