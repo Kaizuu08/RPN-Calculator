@@ -59,13 +59,15 @@ class MyApplet extends FakeApplet {
 
         r = new RPN();
 
+        /** Action Listener for operator buttons */
         ActionListener op_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 r.doOperator(e.getActionCommand());
                 System.err.println(e);
             }
         };
-        /** creates operator buttons that interact with the calculator */
+
+        /* creates operator buttons that interact with the calculator */
         String ops = "+ - * / sin cos tan ^ PI clear sqrt ln log CHS rad deg debug";
         for (String op : ops.split(" ")) {
             Button b = new Button(op);
@@ -73,19 +75,20 @@ class MyApplet extends FakeApplet {
             b.addActionListener(op_listener);
         }
 
-
+        /** Action listener that pushes number from text field and interacts
+         * with "enter" button*/
         ActionListener tf1_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 r.push(Double.parseDouble(tf1.getText()));
                 System.err.println(e);
+                tf1.setText("");
             }
         };
 
-        String enter = "ENTER";{
-            Button c = new Button(enter);                                          
-            this.add(c);                                                        
-            c.addActionListener(tf1_listener);                                   
-        }                                     
+        /* the ENTER button */
+        Button c = new Button("ENTER");                                          
+        this.add(c);                                                        
+        c.addActionListener(tf1_listener);                                   
 
         tf1 = new TextField("", 30);
         this.add(tf1);
