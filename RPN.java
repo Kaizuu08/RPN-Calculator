@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.awt.*;
 import java.awt.event.*;
 
-class FakeApplet extends Panel {
+class FakeApplet extends Panel{
     public void init() {
         System.out.println("init");
     }
@@ -65,7 +65,7 @@ class MyApplet extends FakeApplet {
                 System.err.println(e);
             }
         };
-
+        /** creates operator buttons that interact with the calculator */
         String ops = "+ - * / sin cos tan ^ PI clear sqrt ln log CHS rad deg debug";
         for (String op : ops.split(" ")) {
             Button b = new Button(op);
@@ -73,8 +73,24 @@ class MyApplet extends FakeApplet {
             b.addActionListener(op_listener);
         }
 
+
+        ActionListener tf1_listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                r.push(Double.parseDouble(tf1.getText()));
+                System.err.println(e);
+            }
+        };
+
+        String enter = "ENTER";{
+            Button c = new Button(enter);                                          
+            this.add(c);                                                        
+            c.addActionListener(tf1_listener);                                   
+        }                                     
+
         tf1 = new TextField("", 30);
         this.add(tf1);
+        tf1.addActionListener(tf1_listener);
+
 
         ActionListener dig_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -90,12 +106,11 @@ class MyApplet extends FakeApplet {
             d.addActionListener(dig_listener);
         }
 
-        tf1.addActionListener(dig_listener);
     } 
 
     public RPN getRPN(){
         return r;
-        }
+    }
 }
 
 /* Implement an RPN Calculator based on the HP-21*/
