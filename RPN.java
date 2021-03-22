@@ -59,22 +59,6 @@ class MyApplet extends FakeApplet {
 
         r = new RPN();
 
-        /** Action Listener for operator buttons */
-        ActionListener op_listener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                r.doOperator(e.getActionCommand());
-                System.err.println(e);
-            }
-        };
-
-        /* creates operator buttons that interact with the calculator */
-        String ops = "+ - * / sin cos tan ^ PI clear sqrt ln log CHS rad deg debug";
-        for (String op : ops.split(" ")) {
-            Button b = new Button(op);
-            this.add(b);
-            b.addActionListener(op_listener);
-        }
-
         /** Action listener that pushes number from text field and interacts
          * with "enter" button*/
         ActionListener tf1_listener = new ActionListener() {
@@ -94,21 +78,38 @@ class MyApplet extends FakeApplet {
         this.add(tf1);
         tf1.addActionListener(tf1_listener);
 
+        /** Action Listener for operator buttons */
+        ActionListener op_listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                r.doOperator(e.getActionCommand());
+                System.err.println(e);
+            }
+        };
 
+        /* creates operator buttons that interact with the calculator */
+        String ops = "+ - * / sin cos tan ^ PI clear sqrt ln log CHS rad deg debug";
+        for (String op : ops.split(" ")) {
+            Button b = new Button(op);
+            this.add(b);
+            b.addActionListener(op_listener);
+        }
+
+        /** Action Listener for number buttons */
         ActionListener dig_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tf1.setText(tf1.getText() + e.getActionCommand());
                 System.err.println(e);
             }
-        };
-
+        }; 
+//        setLayout(new GridLayout(5,2));           (this line makes it so
+//        that everything is a grid
+ 
         String digit = "1 2 3 4 5 6 7 8 9 0";
         for (String dig : digit.split(" ")) {
             Button d  = new Button(dig);
             this.add(d);
             d.addActionListener(dig_listener);
         }
-
     } 
 
     public RPN getRPN(){
