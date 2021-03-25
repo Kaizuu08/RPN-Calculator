@@ -59,6 +59,14 @@ class MyApplet extends FakeApplet {
 
         r = new RPN();
 
+        /** Action Listener for operator buttons that interacts with the
+         * calculator */
+        ActionListener op_listener = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                r.doOperator(e.getActionCommand());
+                System.err.println(e);
+            }
+        };
         /** Action listener that pushes number from text field and interacts
          * with "enter" button*/
         ActionListener tf1_listener = new ActionListener() {
@@ -68,46 +76,54 @@ class MyApplet extends FakeApplet {
                 tf1.setText("");
             }
         };
-
-        /* the ENTER button */
-        Button c = new Button("ENTER");                                          
-        this.add(c);                                                        
-        c.addActionListener(tf1_listener);                                   
-
-        tf1 = new TextField("", 30);
-        this.add(tf1);
-        tf1.addActionListener(tf1_listener);
-
-        /** Action Listener for operator buttons */
-        ActionListener op_listener = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                r.doOperator(e.getActionCommand());
-                System.err.println(e);
-            }
-        };
-
-        /* creates operator buttons that interact with the calculator */
-        String ops = "+ - * / sin cos tan ^ PI clear sqrt ln log CHS rad deg debug";
-        for (String op : ops.split(" ")) {
-            Button b = new Button(op);
-            this.add(b);
-            b.addActionListener(op_listener);
-        }
-
-        /** Action Listener for number buttons */
+        /** Action Listener for number buttons that inserts button number into
+         * text field without replacing previous existing numbers in the text
+         * field*/
         ActionListener dig_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 tf1.setText(tf1.getText() + e.getActionCommand());
                 System.err.println(e);
             }
         }; 
-//        setLayout(new GridLayout(5,2));           (this line makes it so
-//        that everything is a grid
- 
+
+        Panel toppanel = new Panel();
+        this.add(toppanel);
+        toppanel.setLayout(new GridLayout(1,1));
+
+        Panel midpanel = new Panel();
+        this.add(midpanel);
+        midpanel.setLayout(new GridLayout(5,3));
+
+        Panel bottompanel = new Panel();
+        this.add(bottompanel);
+        bottompanel.setLayout(new GridLayout(4,3));
+
+        /* the CLEAR button */
+        Button cl = new Button("CLEAR");
+        toppanel.add(cl);
+        cl.addActionListener(op_listener);
+
+        tf1 = new TextField("", 30);
+        toppanel.add(tf1);
+        tf1.addActionListener(tf1_listener);
+
+        /* the ENTER button */
+        Button e = new Button("ENTER");                                          
+        toppanel.add(e);                                                        
+        e.addActionListener(tf1_listener);                                   
+         
+        /* creates operator buttons that interact with the calculator */
+        String ops = "+ - * / sin cos tan ^ PI sqrt ln log CHS rad deg debug";
+        for (String op : ops.split(" ")) {
+            Button o = new Button(op);
+            midpanel.add(o);
+            o.addActionListener(op_listener);
+        }
+
         String digit = "1 2 3 4 5 6 7 8 9 0";
         for (String dig : digit.split(" ")) {
             Button d  = new Button(dig);
-            this.add(d);
+            bottompanel.add(d);
             d.addActionListener(dig_listener);
         }
     } 
@@ -157,7 +173,7 @@ public class RPN {
         push(num1 + num2);
     }
 
-    /** Subtracts the previous popped numbers then pushes the result*/
+    /**Subtracts the 2nd popped number to the firt  popped number then pushes the result*/
     public void sub() {
         double num1 = pop();
         double num2 = pop();
@@ -170,7 +186,7 @@ public class RPN {
         double sum = num1 * num2;
         push(sum);
     }
-    /**Command that Divides 2 Previous Popped Numbers the pushes the result*/
+    /**Command that Divides the the first popped number by the 2nd popped Numbers then pushes the result*/
     public void div() {
         double num1 = pop();                                                    
         double num2 = pop();                                                    
@@ -184,7 +200,7 @@ public class RPN {
         double num1 = pop();                                                    
         double sin  = Math.sin(num1);                                           
         if (degrees) {
-            sin = Math.toDegrees(sin);
+            sin = Math.toDegrees(num1);
         }
         push(sin);     
     }             
@@ -400,7 +416,8 @@ class Main {
     public static void main(String[] args) { // Runs Program
         System.out.println("HP21 Calculator | Use + - * / sin tan cos ^ PI clear sqrt ln log CHS Debug");
 
-        /** changes to testing mode and runs all test*/
+        /** when in testing mode determines if specific calculator functions
+         * work*/
         assert assertsEnabled = true;
         if (assertsEnabled) {
             System.err.println("Testing Mode Enabled");
