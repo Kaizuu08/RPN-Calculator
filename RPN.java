@@ -86,9 +86,18 @@ class MyApplet extends FakeApplet {
             }
         }; 
 
+        /** Action Listener that when clear box is pressed it empties the text
+         * field*/
+        ActionListener Cleartf1 = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tf1.setText("");
+            }
+        };
+        this.setLayout(new GridLayout(3,1));
+
         Panel toppanel = new Panel();
         this.add(toppanel);
-        toppanel.setLayout(new GridLayout(1,1));
+        toppanel.setLayout(new BorderLayout());
 
         Panel midpanel = new Panel();
         this.add(midpanel);
@@ -98,22 +107,23 @@ class MyApplet extends FakeApplet {
         this.add(bottompanel);
         bottompanel.setLayout(new GridLayout(4,3));
 
-        /* the CLEAR button */
-        Button cl = new Button("CLEAR");
-        toppanel.add(cl);
-        cl.addActionListener(op_listener);
-
         tf1 = new TextField("", 30);
-        toppanel.add(tf1);
+        toppanel.add(tf1, BorderLayout.CENTER);
         tf1.addActionListener(tf1_listener);
+        
+
+        /* the CLEAR button (clears tf1) */
+        Button cl = new Button("Clear Box");
+        toppanel.add(cl, BorderLayout.WEST);
+        cl.addActionListener(Cleartf1);
 
         /* the ENTER button */
         Button e = new Button("ENTER");                                          
-        toppanel.add(e);                                                        
+        toppanel.add(e, BorderLayout.EAST);
         e.addActionListener(tf1_listener);                                   
          
         /* creates operator buttons that interact with the calculator */
-        String ops = "+ - * / sin cos tan ^ PI sqrt ln log CHS rad deg debug";
+        String ops = "+ - * / sin cos tan ^ PI sqrt ln clear log CHS rad deg debug";
         for (String op : ops.split(" ")) {
             Button o = new Button(op);
             midpanel.add(o);
