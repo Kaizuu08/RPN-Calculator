@@ -78,46 +78,61 @@ class FakeApplet extends Panel{
 class MyApplet extends FakeApplet {
     RPN r;
     TextField tf1;
+    boolean isEditing = true;
 
     public void init() {
         super.init();
 
         r = new RPN();
 
-        /** Action Listener for operator buttons that interacts with the
+        /* Action Listener for operator buttons that interacts with the
          * calculator */
         ActionListener op_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 r.doOperator(e.getActionCommand());
                 System.err.println(e);
+                tf1.setText("" + r.getResult());
+                isEditing = false;
             }
         };
-        /** Action listener that pushes number from text field and interacts
+
+        /* Action listener that pushes number from text field and interacts
          * with "enter" button*/
         ActionListener tf1_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 r.push(Double.parseDouble(tf1.getText()));
                 System.err.println(e);
-                tf1.setText("");
+                tf1.setText("" + r.getResult());
+                isEditing = false;
             }
         };
-        /** Action Listener for number buttons that inserts button number into
+
+        /* Action Listener for number buttons that inserts button number into
          * text field without replacing previous existing numbers in the text
          * field*/
         ActionListener dig_listener = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tf1.setText(tf1.getText() + e.getActionCommand());
+                if (isEditing) {
+                    tf1.setText(tf1.getText() + e.getActionCommand());
+                } else {
+                    tf1.setText(e.getActionCommand());
+                    isEditing = true;
+                }
                 System.err.println(e);
             }
         }; 
 
-        /** Action Listener that when clear box is pressed it empties the text
+        /* Action Listener that when clear box is pressed it empties the text
          * field*/
         ActionListener Cleartf1 = new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                tf1.setText("");
+                if (isEditing) {
+                    tf1.setText("");
+                } 
+                
             }
         };
+
         this.setLayout(new GridLayout(3,1));
 
         Panel toppanel = new Panel();
