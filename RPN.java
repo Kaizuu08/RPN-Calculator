@@ -49,6 +49,31 @@ class FakeApplet extends Panel{
         frame.setVisible(true);
     }
 }
+/** Reflection on RPN GUI Prototype.
+ * So far have implemented:
+ * Number Keys (0 - 9)
+ * Text Field
+ * "ENTER" Button (Pushes the content in the text field)
+ * "Clear Box" Button (Clears Text Field)
+ * Operator Buttons (+ - * / sin cost tan ^ PI sqrt ln log clear CHS rad deg
+ * debug)
+ *
+ * Comment: although this gives a pretty basic operation of an RPN calculator
+ * it is not enough to give you a full fuctioning calculator as I am missing a
+ * memory functon that is included in a normal RPN calculator. The blue Button
+ * feature in the RPN calculator that allows access to operator buttons on the
+ * same operator buttons that is only available after pressing on the blue
+ * button. The overall GUI is layout is still not yet perfect and needs some
+ * resizing and aligining and is at the moment a little confusing o look at. 
+ * Results, of when using the calculator functions do not yet dispaly in the
+ * text box but rather displays on the text line outside of the GUI itself. 
+ *
+ * Goal: #1 Make results display on the Text Field
+ * #2 develop  a memory function in the calculator
+ * #3 developing blue button (tip: use boolean *if blue button is pressed
+ * replace current operators with blue operations*)
+ * #4 redo placement and layout of all buttons so that it is easy to look at.
+ */
 
 class MyApplet extends FakeApplet {
     RPN r;
@@ -163,6 +188,7 @@ public class RPN {
         y = x;
         x = num;
     }
+
     /** Pops your inputted numbers
      * @return the next empty x so that you can input your next number*/
     public double pop() { 
@@ -189,6 +215,7 @@ public class RPN {
         double num2 = pop();
         push(num2 - num1);
     }
+
     /**Multiplies the previous popped numbers then pushes the result*/
     public void multi() {
         double num1 = pop();
@@ -196,6 +223,7 @@ public class RPN {
         double sum = num1 * num2;
         push(sum);
     }
+
     /**Command that Divides the the first popped number by the 2nd popped Numbers then pushes the result*/
     public void div() {
         double num1 = pop();                                                    
@@ -204,6 +232,7 @@ public class RPN {
         push(sum);                                                      
 
     }
+
     /**Finds the sin of the previous entered popped number and pushes the
      * result.*/ 
     public void sin() {                                                         
@@ -244,12 +273,14 @@ public class RPN {
         double pow = Math.pow(num2, num1);
         push(pow);
     }
+
     /** When this command is activated your pushed result is PI which
      * approximately = 3.14** */
     public void PI() {
         double PI = Math.PI;
         push(PI);
     }
+
 /**makes all values 0 ultimately clearing calculator*/
     public void clear() {
         
@@ -260,12 +291,14 @@ public class RPN {
 
         System.err.println(this);
     }
+
     /** Takes the square root of the popped number and pushes the result*/
     public void sqrt() {
         double num1 = pop();
         double sqrt = Math.sqrt(num1);
         push(sqrt);
     }
+
     /** Finds the ln of the previous entered popped number and pushes the
      * result*/
     public void ln () {
@@ -273,6 +306,7 @@ public class RPN {
         double ln  = Math.log(num1);                                           
             push(ln);  
     }
+
     /** Finds the log of the previous entered popped number and pushes the
      * result*/
     public void log () {                                                         
@@ -280,6 +314,7 @@ public class RPN {
         double log  = Math.log10(num1);                                             
             push(log);                                                           
     }                                                                           
+
     /** change the current pushed value from a negative to a posotive and vice
      * versa*/
     public void chs () {                                                        
@@ -289,10 +324,12 @@ public class RPN {
         push(sum);
 
     }
+
     /** Makes push results that are applicable appear in Radians */
     public void rad() {                                                        
         degrees = false;
     }       
+
     /** Makes push results that are applicable appear in Degrees */
     public void deg() {
         degrees = true;
@@ -318,8 +355,8 @@ public class RPN {
             case "deg": deg(); break;
             case "debug": System.err.println(this); break;
             default:
-                          System.err.println("Unknown Operation: " + op);
-                          assert false;
+                    System.err.println("Unknown Operation: " + op);
+                    assert false;
         }
     }
 
