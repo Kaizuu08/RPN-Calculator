@@ -68,8 +68,8 @@ class FakeApplet extends Panel{
  * Results, of when using the calculator functions do not yet dispaly in the
  * text box but rather displays on the text line outside of the GUI itself. 
  *
- * Goal: #1 Make results display on the Text Field
- * #2 develop  a memory function in the calculator
+ * Goal: #1 Make results display on the Text Field  // Finished 30/03/21
+ * #2 develop  a memory function in the calculator // 
  * #3 developing blue button (tip: use boolean *if blue button is pressed
  * replace current operators with blue operations*)
  * #4 redo placement and layout of all buttons so that it is easy to look at.
